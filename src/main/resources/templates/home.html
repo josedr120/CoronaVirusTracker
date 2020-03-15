@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Corona Virus Tracker</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/mdb.min.css">
+    <link rel="stylesheet" href="./css/datatables.min.css">
+    <link rel="stylesheet" href="./css/datatables-select.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<main>
+    <div class="container py-5">
+        <div class="text-center white-text">
+            <h2>Total Reported Cases: </h2>
+            <h1 th:text="${totalReportedCases}"></h1>
+        </div>
+        <br />
+        <div class="card text-center z-depth-4">
+            <div class="card-header">Table</div>
+            <div class="card-body">
+                <table id="data" class="table table-striped" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th scope="col">State</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Total Cases Reported</th>
+                        <th scope="col">Changes sience last day</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="locationStat : ${locationStat}">
+                        <td th:text="${locationStat.state}"></td>
+                        <td th:text="${locationStat.country}"></td>
+                        <td th:text="${locationStat.latestTotalCases}">0</td>
+                        <td th:text="${locationStat.diffFromPrevDay}">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+<script src="./js/jquery.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/mdb.min.js"></script>
+<script src="./js/datatables.min.js"></script>
+<script src="./js/datatables-select.min.js"></script>
+
+<script type="application/javascript">
+    // Material Design example
+    $(document).ready(function () {
+        $('#data').DataTable();
+        $('#data_wrapper').find('label').each(function () {
+            $(this).parent().append($(this).children());
+        });
+        $('#data_wrapper .dataTables_filter').find('input').each(function () {
+            const $this = $(this);
+            $this.attr("placeholder", "Search");
+            $this.removeClass('form-control-sm');
+        });
+        $('#data_wrapper .dataTables_length').addClass('d-flex flex-row');
+        $('#data_wrapper .dataTables_filter').addClass('md-form');
+        $('#data_wrapper select').removeClass(
+            'custom-select custom-select-sm form-control form-control-sm');
+        $('#data_wrapper select').addClass('mdb-select');
+        $('#data_wrapper .mdb-select').materialSelect();
+        $('#data_wrapper .dataTables_filter').find('label').remove();
+    });
+</script>
+</body>
+</html>
